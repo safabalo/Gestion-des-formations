@@ -4,7 +4,7 @@ const Formation = mongoose.model(
   "Formation",
   new mongoose.Schema({
     name: String,
-    image: Buffer,
+    image: String,
     organism: {
       type: mongoose.Schema.Types.ObjectId,
           ref: "Organism"

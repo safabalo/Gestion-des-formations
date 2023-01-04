@@ -2,20 +2,24 @@ const router = require('express').Router()
 const authController = require('../controllers/users')
 const formationController = require('../controllers/formations')
 const organismController = require('../controllers/organism')
-
+const multer = require('../middlewares/multer-config')
+const tryCatch = require('../middlewares/tryCatch')
+const errorHandler = require('../middlewares/errorHandling')
 // Add Employee
-router.post('/addEmploye',authController.addEmployer)
+router.post('/addEmploye',multer.single('image'),tryCatch(authController.addEmployer))
 // Routes des organism
-router.get('/organism',organismController.getOrganism)
-router.get('/organism/:id',organismController.getOneOrganism)
-router.post('/organism', organismController.AddOrganism)
-router.post('/organism/:id',organismController.UpdateOrganism)
-router.get('/organism-delete/:id',organismController.DeleteOrganism)
+router.get('/organism',tryCatch(organismController.getOrganism))
+router.get('/organism/:id',tryCatch(organismController.getOneOrganism))
+router.post('/organism', tryCatch(organismController.AddOrganism))
+router.post('/organism/:id',tryCatch(organismController.UpdateOrganism))
+router.get('/organism-delete/:id',tryCatch(organismController.DeleteOrganism))
 // Routes des formations
-router.get('/formations',formationController.getFormation)
-router.get('/formation/:id',formationController.getOneFormation)
-router.post('/formation', formationController.AddFormation)
-router.post('/formation/:id',formationController.UpdateFormation)
-router.get('/formation-delete/:id',formationController.DeleteFormation)
+router.get('/formations',tryCatch(formationController.getFormation))
+router.get('/formation/:id',tryCatch(formationController.getOneFormation))
+router.post('/formation',multer.single('image') ,tryCatch(formationController.AddFormation))
+router.post('/formation/:id',multer.single('image'),tryCatch(formationController.UpdateFormation))
+router.get('/formation-delete/:id',tryCatch(formationController.DeleteFormation))
+
+router.use(errorHandler)
 
 module.exports = router

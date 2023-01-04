@@ -13,20 +13,23 @@ const getOrganism = async(req,res)=>{
     res.send(organism)
 }
 const getOneOrganism = async(req,res)=>{
-    let id = req.params
+    let id = req.params.id
     const organism = await Organism.findById(id)
     res.send(organism)
 }
 const UpdateOrganism = async(req,res)=>{
-    let id = req.params
-    const organism = await Organism.findById(id)
-    const UpdateOrganism = await organism.updateMany({},{$set:{name:body.name}, $set:{image:body.image}, $set:{duree:body.duree}})
-    res.send(UpdateOrganism)
+    let id = req.params.id
+    const UpdateOrganism = await Organism.findByIdAndUpdate(id,{})
+    if(!UpdateOrganism) throw Error('Error, try again')
+    res.json({message: `Organism ${body.name} is updated`, UpdateOrganism})
+    
 }
 const DeleteOrganism = async(req,res)=>{
-    let id = req.params
-    const deleteOrg = await Organism.deleteOne({_id:id})
-    res.send(deleteOrg)
+    let id = req.params.id
+    const deleteOrg = await Organism.findByIdAndDelete(id)
+    if(!deleteOrg) throw Error('Error, try again')
+    res.json({message: `Organism is deleted`, deleteOrg})
+    
 }
 
 module.exports={
