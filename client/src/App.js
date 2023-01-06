@@ -1,22 +1,15 @@
-
-
+import Login from './components/Login/Login'
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import Admin from './components/Admin/Admin';
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p className="bg-cyan-600 text-white">
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Login/>} />
+        <Route path='/dashboard' element={<Admin/>} />
+      </Routes>
+    
+    </BrowserRouter>
   );
 }
 
