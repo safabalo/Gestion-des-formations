@@ -1,20 +1,23 @@
 import React from 'react'
 import Sidebar from '../Sidebar/Sidebar'
-import { BiHomeAlt, BiUserCircle } from "react-icons/bi";
-import { MdOutlineNoMeals, MdOutlineCategory, MdOutlineDeliveryDining, MdOutlinePayment} from "react-icons/md";
+import { BiHomeAlt, BiUserCircle, BiUser } from "react-icons/bi";
+import { MdOutlineNoMeals, MdOutlineCategory, MdOutlineDeliveryDining, MdOutlinePayment, MdOutlineSchool} from "react-icons/md";
 import {TfiStatsUp} from "react-icons/tfi";
+import {FaSchool} from "react-icons/fa";
+import {RiHistoryLine} from "react-icons/ri";
 import Cards from '../Cards/Cards';
-import Table from './Table';
+import Formation from './Formation';
+import Organism from './Organism';
 
 
-export default function Admin() {
+export default function Dashboard() {
     const menus = [
         { name: "Home", link: "/", icon: BiHomeAlt },
-        { name: "Organism", link: "/Users", icon: BiUserCircle },
-        { name: "Employés", link: "/Produit", icon: MdOutlineNoMeals },
-        { name: "Formation", link: "/Category", icon: MdOutlineCategory },
-        { name: "Command", link: "/Command", icon: MdOutlineDeliveryDining },
-        { name: "Payement", link: "/Payement", icon: MdOutlinePayment },
+        { name: "Organism", link: "/Users", icon: FaSchool },
+        { name: "Employés", link: "/Produit", icon: BiUser },
+        { name: "Formation", link: "/Category", icon: MdOutlineSchool },
+        { name: "Historique", link: "/Command", icon: RiHistoryLine },
+
     ]
   return (
     <div className="flex w-screen">
@@ -34,7 +37,8 @@ export default function Admin() {
                 </div>
                 
             </div>
-            <Table/>
+            {/* <Table/> */}
+            <Organism />
         </div>
     </div>
   )

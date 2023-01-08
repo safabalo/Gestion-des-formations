@@ -1,5 +1,5 @@
 import React from "react";
-import institute from "../../images/ox.png";
+import institute from "../images/ox.png";
 
 export default function Login() {
   return (

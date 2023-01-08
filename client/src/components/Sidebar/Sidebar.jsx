@@ -40,7 +40,7 @@ function Sidebar(props) {
         <button
           type="button"
         //   onClick={logout}
-          className="mt-48 inset-x-0 flex items-center text-sm gap-4 font-medium p-2 rounded-md hover:bg-gray-50 hover:text-blue-600">
+          className="mt-72 inset-x-0 flex items-center text-sm gap-4 font-medium p-2 rounded-md hover:bg-gray-50 hover:text-blue-600">
           <div>{React.createElement(BiLogOut, { size: "25" })}</div>
           <h2 className={`whitespace-pre duration-500 ${!open && "opacity-0 translate-x-28 overflow-hidden"}`}>
             logout
