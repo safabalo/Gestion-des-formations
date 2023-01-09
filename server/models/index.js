@@ -49,59 +49,51 @@ db.role.estimatedDocumentCount((err, count) => {
       });
   }
 });
+
 db.status.estimatedDocumentCount((err, count) => {
-  if (!err && count != 3) {
-    db.status
-      .findOne({ name: "en attente" })
-      .then((e) => {
-        if (!e) {
-          new db.status({
-            name: "en attente",
-          }).save((err) => {
-            if (err) {
-              console.log("error", err);
-            }
-            console.log("'en cours' added to status collection");
-          });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    db.status
-      .findOne({ name: "en cours" })
-      .then((e) => {
-        if (!e) {
-          new db.role({
-            name: "en cours",
-          }).save((err) => {
-            if (err) {
-              console.log("error", err);
-            }
-            console.log("'en cours' added to status collection");
-          });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    db.status
-      .findOne({ name: "fini" })
-      .then((e) => {
-        if (!e) {
-          new db.role({
-            name: "fini",
-          }).save((err) => {
-            if (err) {
-              console.log("error", err);
-            }
-            console.log("'fini' added to status collection");
-          });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+    if (!err && count != 3) {
+        db.status.findOne({name: 'en attente'})
+            .then((e)=>{
+                if(!e){
+                    new db.status({
+                        name: "en attente"
+                    })
+                    .save(err => {
+                        if(err) {console.log("error", err)}
+                        console.log("'en attente' added to status collection");
+                    });
+                }
+            })
+            .catch((error)=>{ console.log(error) })
+
+        db.status.findOne({name: 'en cours...'})
+            .then((e)=>{
+                if(!e){
+                    new db.status({
+                        name: "en cours..."
+                    })
+                    .save(err => {
+                        if(err) {console.log("error", err)}
+                        console.log("'en cours...' added to status collection");
+                    });
+                }
+            })
+            .catch((error)=>{ console.log(error) })
+
+        db.status.findOne({name: 'fini'})
+            .then((e)=>{
+                if(!e){
+                    new db.status({
+                        name: "fini"
+                    })
+                    .save(err => {
+                        if(err) {console.log("error", err)}
+                        console.log("'fini' added to status collection");
+                    });
+                }
+            })
+            .catch((error)=>{ console.log(error) })
+    }
 });
+
 module.exports = db;
