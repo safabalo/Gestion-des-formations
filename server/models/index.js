@@ -8,6 +8,7 @@ db.user = require("./user");
 db.organism = require("./organism");
 db.role = require("./role");
 db.status = require("./status");
+db.historique = require("./historique");
 
 db.role.estimatedDocumentCount((err, count) => {
   if (!err && count != 2) {
