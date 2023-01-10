@@ -37,8 +37,8 @@ export default function Dashboard() {
                 </div>
                 
             </div>
-            {/* <Table/> */}
-            <Organism />
+            {/* <Formation/> */}
+            {/* <Organism /> */}
         </div>
     </div>
   )

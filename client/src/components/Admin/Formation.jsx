@@ -6,6 +6,7 @@ export default function Formation() {
     let [formations, setFormation]= useState([]);
     axios.get(`http://localhost:2000/admin/formations`)
     .then((res)=>{
+        console.log(res.data)
         setFormation(formations = res.data)
     })
     .catch((err)=>{
@@ -57,17 +58,19 @@ export default function Formation() {
                     <img className="w-10 h-10 rounded-full" src={`http://localhost:2000/images/${formation.image}`} alt={formation.image} />
                     <div className="pl-3">
                         <div className="text-base font-semibold">{formation.name}</div>
+                        <div className="text-sm font-medium text-gray-500 dark:text-gray-400">{formation.organism.name}</div>
                     </div>  
                 </th>
                 <td className="px-6 py-4">
-                    {formation.organism}
+                    {formation.status.name}
                 </td>
                 <td className="px-6 py-4">
                     <div className="flex items-center">
-                        <div className="h-2.5 w-2.5 rounded-full bg-green-400 mr-2"></div> {formation.duree}
+                        <div className="h-2.5 w-2.5 rounded-full bg-green-400 mr-2"></div> {formation.debut}
                     </div>
                 </td>
                 <td className="px-6 py-4">
+                    {formation.fin}
                     {/* <!-- Modal toggle --> */}
                     {/* <a href="#" type="button" data-modal-target="editUserModal" data-modal-show="editUserModal" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</a> */}
                 </td>
