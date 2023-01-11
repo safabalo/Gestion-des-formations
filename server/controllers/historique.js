@@ -5,7 +5,7 @@ const Organism = db.organism
 const Status = db.status
 const Historique = db.historique
 
-const AddHistorique = async(req, res)=>{
+const addHistorique = async(req, res)=>{
    const employer = await User.findById(req.params.id)
    const {body}= req
    const start = new Date(body.debut)
@@ -16,15 +16,22 @@ const AddHistorique = async(req, res)=>{
    })
    res.send(historique)
 }
-const GetHistorique = async(req, res)=>{
+const getHistorique = async(req, res)=>{
+   // Don't forget to put it in get Router of historique
    const historique = await Historique.find().populate('user').populate('formation')
+   const formation = await Formation.findById(historique.formation)
+   const status = await Status.findOne({name: 'fini'})
+   if(historique.debut.getTime()=== historique.fin.getTime()){
+      formation.status = status._id
+      formation.save()
+   }
    res.send(historique)
 }
-const GetOneHistorique = async(req, res)=>{
+const getOneHistorique = async(req, res)=>{
    const historique = await Historique.findById(req.params.id)
    res.send(historique)
 }
-const UpdateHistorique = async(req, res)=>{
+const updateHistorique = async(req, res)=>{
    const historique = req.params.id
    const {body}= req
    const UpdateHistorique = await Historique.findByIdAndUpdate(historique,{
@@ -35,8 +42,8 @@ const UpdateHistorique = async(req, res)=>{
 }
 
 module.exports = {
-   AddHistorique,
-   GetHistorique,
-   GetOneHistorique,
-   UpdateHistorique
+   addHistorique,
+   getHistorique,
+   getOneHistorique,
+   updateHistorique
 }
