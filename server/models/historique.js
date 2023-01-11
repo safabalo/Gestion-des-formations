@@ -15,6 +15,8 @@ const Historique = mongoose.model(
             ref: "User"
         }
     ],
+    debut: Date,
+    fin: Date,
   })
 );
 

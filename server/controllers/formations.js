@@ -1,5 +1,4 @@
 const db = require('../models')
-const { deleteOne } = require('../models/formation')
 const Formation = db.formation
 const Organism = db.organism
 const Status = db.status
@@ -25,7 +24,6 @@ const AddFormation = async(req, res)=>{
 }
 const getFormation = async(req,res)=>{
     const formation = await Formation.find().populate('organism').populate('status');
-    console.log(formation)
     res.send(formation)
 }
 const getOneFormation = async(req,res)=>{
