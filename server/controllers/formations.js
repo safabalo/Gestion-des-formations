@@ -2,20 +2,17 @@ const db = require('../models')
 const Formation = db.formation
 const Organism = db.organism
 const Status = db.status
+const Historique = db.historique
 
 const AddFormation = async(req, res)=>{
     const {body}= req
     const findOrg = await Organism.findOne({name : body.organism})
-    const start = new Date(body.debut)
-    const end = new Date(body.fin)
     const status = await Status.findOne({name : "en attente"})
     const formation = await Formation.create({
         ...body,
         image: req.file.filename,
         organism: findOrg._id,
         status: status._id,
-        debut: start,
-        fin: end
     })
     if(formation){res.send({msg : formation})
     }else{
@@ -31,6 +28,17 @@ const getOneFormation = async(req,res)=>{
     const oneFormation = await Formation.findById(id)
     res.send(oneFormation)
 }
+const filtredFormation = async(req,res)=>{
+    const fini = await Status.findOne({name: 'fini'})
+    const attente = await Status.findOne({name: 'en attente'})
+    const allFormation = await Formation.find()
+    const formation = allFormation.filter(f=>f.status===fini || f.status===attente)
+    if(formation) res.send(formation)
+    else{
+        throw Error("There's no formation over here")
+    }
+}
+
 const UpdateFormation = async(req,res)=>{
     const id = req.params.id
     const {body}= req

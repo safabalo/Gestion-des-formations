@@ -13,8 +13,6 @@ const Formation = mongoose.model(
       type: mongoose.Schema.Types.ObjectId,
           ref: "Status"
     },
-    debut: Date,
-    fin: Date,
 
   })
 );
