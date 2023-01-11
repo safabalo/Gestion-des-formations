@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs')
 const salt = 10
 const db = require('../models')
 let storage = require('local-storage')
+const Historique = require('../models/historique')
 
 const User = db.user
 const formation = db.formation
@@ -75,10 +76,19 @@ const updateEmployer = async(req,res)=>{
     res.json({message: `Formation ${body.username} is updated`, UpdateEmployer})
   
 }
-
+const filterUser = async(req,res)=>{
+    const employer= await User.find({role: "employe"})
+    if(!employer) throw Error('Error, try again')
+    const historique = await Historique.find().populate('user').populate('formation')
+    if(!historique) throw Error('Error, try again')
+    const filter = historique.filter(i =>{i.debut.getTime() !== i.fin.getTime()})
+    const filterEmployer = employer.filter(e=>{return !filter.includes(e)})
+    res.json({message: 'List of employer', filterEmployer})
+}
 
 module.exports={
     login,
     addEmployer,
     updateEmployer,
+    filterUser
 }

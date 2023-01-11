@@ -8,6 +8,7 @@ const tryCatch = require('../middlewares/tryCatch')
 const errorHandler = require('../middlewares/errorHandling')
 // Add Employee
 router.post('/addEmploye',multer.single('image'),tryCatch(authController.addEmployer))
+router.get('/employe',tryCatch(authController.filterUser))
 // Routes des organism
 router.get('/organism',tryCatch(organismController.getOrganism))
 router.get('/organism/:id',tryCatch(organismController.getOneOrganism))
