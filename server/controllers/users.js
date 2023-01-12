@@ -90,10 +90,15 @@ const filterUser = async(req,res)=>{
     const filterEmployer = employer.filter(e=>{return !filter.includes(e)})
     res.json({message: 'List of employer', filterEmployer})
 }
+const logout = async(req,res)=>{
+    storage.removeItem("token");
+    res.json({ message: "Logout success" });
+}
 
 module.exports={
     login,
     addEmployer,
     updateEmployer,
-    filterUser
+    filterUser,
+    logout
 }
