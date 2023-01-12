@@ -7,22 +7,16 @@ const User = mongoose.model(
     email: String,
     password: String,
     image:String,
-    role: [
+    role: 
         {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Role"
         }
-      ],
-    organisation: {
+      ,
+    organism: {
         type: mongoose.Schema.Types.ObjectId,
         ref:"Organisation"
     },
-    formation: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Formation"
-        }
-      ],
     status: Boolean
   })
 );

@@ -5,6 +5,7 @@ const salt = 10
 const db = require('../models')
 let storage = require('local-storage')
 const Historique = require('../models/historique')
+const Organism = require('../models/organism')
 
 const User = db.user
 const formation = db.formation
@@ -32,10 +33,12 @@ const addEmployer = async(req,res)=>{
     let password = Math.random().toString(36).substr(2, 8);
     const double = await User.findOne({ email: body.email }).exec();
     if (double) return res.status(409).json({ message: "This email already exist" }); //Conflict
-    const role = await Role.findOne({ role: "employe" });
+    const role = await Role.findOne({ name: "employe" });
+    const organism = await Organism.findOne({name: body.organism})
     let hashedpassword = await bcrypt.hash(password, salt);
     const user = await User.create({
       ...body,
+      organism: organism._id,
       image: req.file.filename,
       status: true,
       role: role._id,
@@ -77,11 +80,13 @@ const updateEmployer = async(req,res)=>{
   
 }
 const filterUser = async(req,res)=>{
-    const employer= await User.find({role: "employe"})
+    const role = await Role.findOne({name: "employe"})
+    const today = new Date()
+    const employer= await User.find({role: role._id})
     if(!employer) throw Error('Error, try again')
     const historique = await Historique.find().populate('user').populate('formation')
     if(!historique) throw Error('Error, try again')
-    const filter = historique.filter(i =>{i.debut.getTime() !== i.fin.getTime()})
+    const filter = historique.filter(i =>{ return i.fin.toDateString()===today.toDateString()})
     const filterEmployer = employer.filter(e=>{return !filter.includes(e)})
     res.json({message: 'List of employer', filterEmployer})
 }

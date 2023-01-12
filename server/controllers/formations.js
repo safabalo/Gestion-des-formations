@@ -29,11 +29,19 @@ const getOneFormation = async(req,res)=>{
     res.send(oneFormation)
 }
 const filtredFormation = async(req,res)=>{
+    const historique = await Historique.find().populate('user').populate('formation')
+    const formation = await Formation.findById(historique.formation)
+    const today = new Date()
+    const status = await Status.findOne({name: 'fini'})
+    if(historique.fin.toDateString() === today.toDateString()){
+       formation.status = status._id
+       formation.save()
+    }
     const fini = await Status.findOne({name: 'fini'})
     const attente = await Status.findOne({name: 'en attente'})
     const allFormation = await Formation.find()
-    const formation = allFormation.filter(f=>f.status===fini || f.status===attente)
-    if(formation) res.send(formation)
+    const formations = allFormation.filter(f=>f.status===fini || f.status===attente)
+    if(formations) res.send(formations)
     else{
         throw Error("There's no formation over here")
     }
