@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 
 const RolePrivateRoutes = (props) => {
-   let user = localStorage.getItem("user");
+   let user = JSON.parse(localStorage.getItem("user"));
   if (user.role === props.role) {
     var role = true;
   }

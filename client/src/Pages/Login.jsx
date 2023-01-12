@@ -1,7 +1,22 @@
 import React from "react";
 import institute from "../images/ox.png";
+import { useState } from "react";
+// import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { login } from "../components/Redux/Actions/auth";
 
 export default function Login() {
+  const [user, setUser] = useState({ email: "", password: ""})
+  const dispatch = useDispatch();
+  // const navigate = useNavigate
+
+  const handleChange = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(login(user));
+  }
   return (
     <div className="flex items-center min-h-screen bg-gray-50">
       <div className="flex-1 h-full max-w-4xl mx-auto bg-white rounded-lg shadow-xl">
@@ -16,21 +31,21 @@ export default function Login() {
                   <path d="M12 14l9-5-9-5-9 5 9 5z" />
                   <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"
                   />
                 </svg>
               </div>
               <h1 className="mb-4 text-2xl font-bold text-center text-gray-700">Login to Your Account</h1>
               <div>
-                <label className="block text-sm">Email</label>
-                <input type="email" className="w-full px-4 py-2 text-sm border rounded-md focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-600" placeholder="" />
+                <label className="block text-sm" >Email</label>
+                <input type="email" onChange={handleChange} name="email" className="w-full px-4 py-2 text-sm border rounded-md focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-600" placeholder="" />
               </div>
               <div>
                 <label className="block mt-4 text-sm">Password</label>
-                <input className="w-full px-4 py-2 text-sm border rounded-md focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-600" placeholder="" type="password" />
+                <input name="password" onChange={handleChange} className="w-full px-4 py-2 text-sm border rounded-md focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-600" placeholder="" type="password" />
               </div>
               <p className="mt-4">
                 <a className="text-sm text-blue-600 hover:underline" href="./forgot-password.html">
@@ -38,6 +53,7 @@ export default function Login() {
                 </a>
               </p>
               <button
+                onClick={handleSubmit}
                 className="block w-full px-4 py-2 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue mt-8 mb-16"
                 href="#"
                 

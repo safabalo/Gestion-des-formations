@@ -1,3 +1,5 @@
+import {Provider} from 'react-redux'
+import store from './components/Redux/store'
 import Login from './Pages/Login'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import Dashboard from './components/Admin/Dashboard';
@@ -7,14 +9,12 @@ import ErrorPage from './Pages/404';
 import Employe from './Pages/Employe';
 function App() {
   return (
+    <Provider store={store}>
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Login/>} />
         <Route path='*' element={<ErrorPage/>} />
         <Route element={<AuthPrivateRoutes />}>
-          <Route element={<RolePrivateRoutes role="admin"/>} > 
-              <Route path='/dashboard' element={<Dashboard/>} />
-          </Route>
           <Route element={<RolePrivateRoutes role="admin"/>} > 
               <Route path='/dashboard' element={<Dashboard/>} />
           </Route>
@@ -26,6 +26,7 @@ function App() {
       </Routes>
     
     </BrowserRouter>
+    </Provider>
   );
 }
 
