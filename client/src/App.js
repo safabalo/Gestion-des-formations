@@ -2,11 +2,16 @@ import {Provider} from 'react-redux'
 import store from './components/Redux/store'
 import Login from './Pages/Login'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
-import Dashboard from './components/Admin/Dashboard';
 import AuthPrivateRoutes from './components/PrivateRoutes/AuthPrivate';
 import RolePrivateRoutes from './components/PrivateRoutes/RolePrivate';
 import ErrorPage from './Pages/404';
 import Employe from './Pages/Employe';
+import Organisme from './components/Admin/Organism';
+import Formation from './components/Admin/Formation';
+import Employes from './components/Admin/Employes';
+import Historique from './components/Admin/Historique';
+import Statistiques from './components/Admin/Statistiques';
+import Admin from './Pages/Admin';
 function App() {
   return (
     <Provider store={store}>
@@ -16,10 +21,16 @@ function App() {
         <Route path='*' element={<ErrorPage/>} />
         <Route element={<AuthPrivateRoutes />}>
           <Route element={<RolePrivateRoutes role="admin"/>} > 
-              <Route path='/dashboard' element={<Dashboard/>} />
+              <Route path='dashboard' element={<Admin/>}>
+              <Route path='' element={<Statistiques/>} />
+              <Route path='organism' element={<Organisme/>} />
+              <Route path='formation' element={<Formation/>} />
+              <Route path='employes' element={<Employes/>} />
+              <Route path='historique' element={<Historique/>} />
+              </Route>
           </Route>
           <Route element={<RolePrivateRoutes role="employe"/>} > 
-              <Route path='/employe' element={<Employe/>} />
+              <Route path='employe' element={<Employe/>} />
           </Route>
         </Route>
         

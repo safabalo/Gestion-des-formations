@@ -5,18 +5,18 @@ import { MdOutlineNoMeals, MdOutlineCategory, MdOutlineDeliveryDining, MdOutline
 import {TfiStatsUp} from "react-icons/tfi";
 import {FaSchool} from "react-icons/fa";
 import {RiHistoryLine} from "react-icons/ri";
-import Cards from '../Cards/Cards';
 import Formation from './Formation';
 import Organism from './Organism';
+import { Outlet } from 'react-router-dom';
 
 
 export default function Dashboard() {
     const menus = [
-        { name: "Home", link: "/", icon: BiHomeAlt },
-        { name: "Organism", link: "/Users", icon: FaSchool },
-        { name: "Employés", link: "/Produit", icon: BiUser },
-        { name: "Formation", link: "/Category", icon: MdOutlineSchool },
-        { name: "Historique", link: "/Command", icon: RiHistoryLine },
+        { name: "Home", link: "", icon: BiHomeAlt },
+        { name: "Organism", link: "organism", icon: FaSchool },
+        { name: "Employés", link: "employes", icon: BiUser },
+        { name: "Formation", link: "formation", icon: MdOutlineSchool },
+        { name: "Historique", link: "historique", icon: RiHistoryLine },
 
     ]
   return (
@@ -28,17 +28,11 @@ export default function Dashboard() {
                     <div className='mb-6'>
                         <h1 className='font-bold text-3xl'>Bonjour Admin</h1>
                     </div>
-                    {/* <div className='flex gap-7 items-center justify-center'>
-                        <Cards />
-                        <Cards />
-                        <Cards />
-                    </div> */}
                     
                 </div>
                 
             </div>
-            {/* <Formation/> */}
-            {/* <Organism /> */}
+            <Outlet />
         </div>
     </div>
   )
