@@ -6,7 +6,7 @@ const authController = require('../controllers/users')
 
 router.post('/login',tryCatch(authController.login))
 router.get('/logout',tryCatch(authController.logout))
-router.post('/update', multer.single('image'), tryCatch(authController.updateEmployer))
+
 
 router.use(errorHandler)
 
