@@ -1,11 +1,13 @@
 import axios from 'axios'
 import React from 'react'
+import { useEffect } from 'react'
 import { useState } from 'react'
 import Modal from '../Modal/Modal'
 
 export default function Employes() {
   const URL = 'http://localhost:2000/admin/'
-  let [id, setId] = useState('')
+  const [id, setId] = useState([])
+  const [key, setKey] = useState('')
   const [isOpen, setIsOpen] = useState(false);
   const [mode, setMode] = useState('');
   let [users, setUsers]= useState([]);
@@ -16,9 +18,6 @@ export default function Employes() {
     .catch((err)=>{
         console.log(err.msg)
     })
-    function toggleModal() {
-      setIsOpen(!isOpen);
-    }
     // const handleMode = (mode)=>{
     //   setMode(mode)
     //   toggleModal();
@@ -57,7 +56,7 @@ export default function Employes() {
     </thead>
     {users.map((user, i)=>(
     <tbody>
-        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+        <tr key={user._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
             <td className="w-4 p-4">
                 <div className="flex items-center">
                     <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
@@ -83,7 +82,7 @@ export default function Employes() {
                 {user.role}
             </td>
             <td className="px-6 py-4">
-              <button className='btn bg-blue-600 text-white px-2 py-1' onClick={()=>{setMode('update'); setIsOpen(true); setId(user._id)}}>
+              <button className='btn bg-blue-600 text-white px-2 py-1' onClick={()=>{setMode('update'); setIsOpen(true); setId(user); setKey(user._id)}}>
                 edit
               </button>
             </td>
@@ -94,7 +93,7 @@ export default function Employes() {
 </table>
     {
       isOpen && (
-        <Modal mode={mode} user={id} onClose={()=>setIsOpen(false)}></Modal>
+        <Modal mode={mode} user={id} key={key} onClose={()=>setIsOpen(false)}/>
       )
     }
     

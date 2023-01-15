@@ -1,23 +1,23 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+// import { useEffect } from 'react';
 
-function Modal({ mode, onClose, user }) {
-  const [selectedValue, setSelectedValue] = useState('');
-  const [data, SetData] = useState({
+function Modal({ mode, onClose, user, key }) {
+  
+  const [data, setData] = useState({
     username: '',
     email: '',
     organism: '',
   })
-
   let [options, setOptions] = useState([]);
   const URL = "http://localhost:2000/admin/"
   const onChange = (e) => {
     const value = e.target.value;
-    SetData({ ...addUser, [e.target.name]: value })
+    setData({ ...data, [e.target.name]: value })
   }
   const OnChangeFile = (e) =>{
     const value = e.target.files[0];
-    SetData({ ...addUser, [e.target.name]: value })
+    setData({ ...data, [e.target.name]: value })
   }
 
   axios.get(URL+'organism')
@@ -29,15 +29,16 @@ function Modal({ mode, onClose, user }) {
   })
   const addUser = (e)=>{
     e.preventDefault();
-    const formData = new FormData();
+    console.log(data)
     const input = new FormData();
-      input.append('username', addUser.username);
-      input.append('email', addUser.email);
-      input.append('image', addUser.image);
-      input.append('organism', addUser.organism);
+      input.append('username', data.username);
+      input.append('email', data.email);
+      input.append('image', data.image);
+      input.append('organism', data.organism);
     axios.post(URL+'employe', input)
     .then((res)=>{
-      console.log(res)
+      console.log(res.data)
+      console.log(data)
     })
     .catch((err)=>{
       console.log(err.msg)
@@ -45,10 +46,23 @@ function Modal({ mode, onClose, user }) {
   }
   const updateUser = (e)=>{
     e.preventDefault();
+    setData(user)
+    const input = new FormData();
+      input.append('username', data.username);
+      input.append('email', data.email);
+      input.append('image', data.image);
+      input.append('organism', data.organism)
+    axios.put(URL+'update/'+key, input)
+    .then((res)=>{
+      console.log(res.data)
+      onClose()
+    })
     
   }
-  const handleSubmit= (mode)=>{
-    if(mode === 'add'){
+  console.log(mode)
+  const handleSubmit= (m)=>{
+    m = mode
+    if(m === 'add'){
       addUser();
     }else{
       updateUser();
@@ -83,8 +97,8 @@ function Modal({ mode, onClose, user }) {
                           </label>
                           <input
                             type="text"
-                            // value={username}
-                            // onChange={(e) => setUsername(e.target.value)}
+                            value={data.username}
+                            onChange={onChange}
                             name="username"
                             id="username"
                             placeholder="Inserer le prenom"
@@ -98,8 +112,8 @@ function Modal({ mode, onClose, user }) {
                           </label>
                           <input
                             type="email"
-                            // value={email}
-                            // onChange={(e) => setEmail(e.target.value)}
+                            value={data.email}
+                            onChange={onChange}
                             name="email"
                             id="email"
                             placeholder="Inserer l'email"
@@ -113,9 +127,10 @@ function Modal({ mode, onClose, user }) {
                           <input
                             type="file"
                             // value={email}
-                            // onChange={(e) => setEmail(e.target.value)}
+                            onChange={OnChangeFile}
                             name="image"
                             id="image"
+                            accept=".png, .jpg, .jpeg"
                             placeholder="Inserer l'image"
                             className="block w-full py-2 pr-3 mb-5 bg-white border rounded-md shadow-sm border-slate-300 pl-9 focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm hover:border-2 hover:border-cyan-500"
                           />
@@ -126,8 +141,11 @@ function Modal({ mode, onClose, user }) {
                           </label>
                           <select
                             className="block w-full py-2 pr-3 mb-5 bg-white border rounded-md shadow-sm border-slate-300 pl-9 focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm hover:border-2 hover:border-cyan-500"
+                            name="organism"
+                            value={data.organism}
+                            onChange={onChange}
                           >
-                            {options.map(option =>(
+                            {options.map((option,i) =>(
                               <option key={option._id} value={option.name}>{option.name}</option>
                             ))
                             }
@@ -146,6 +164,7 @@ function Modal({ mode, onClose, user }) {
                         <button
                           className="px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-amber-500 active:bg-amber-600 hover:shadow-lg focus:outline-none"
                           type="submit"
+                          onClick={handleSubmit}
                         // onClick={() => setShowModal(false)}
                         >
                           Save Changes
