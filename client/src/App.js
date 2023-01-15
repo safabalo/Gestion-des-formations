@@ -11,7 +11,11 @@ import Formation from './components/Admin/Formation';
 import Employes from './components/Admin/Employes';
 import Historique from './components/Admin/Historique';
 import Statistiques from './components/Admin/Statistiques';
+import Assign from './components/Admin/Assign';
 import Admin from './Pages/Admin';
+import AddEmployer from './components/Add/AddEmployer';
+import AddFormation from './components/Add/AddFormation';
+import AddOrganism from './components/Add/AddOrganism';
 function App() {
   return (
     <Provider store={store}>
@@ -27,6 +31,10 @@ function App() {
               <Route path='formation' element={<Formation/>} />
               <Route path='employes' element={<Employes/>} />
               <Route path='historique' element={<Historique/>} />
+              <Route path='assigner' element={<Assign/>} />
+              <Route path='addOrganism' element={<AddOrganism/>} />
+              <Route path='addEmployer' element={<AddEmployer/>} />
+              <Route path='addFormation' element={<AddFormation/>} />
               </Route>
           </Route>
           <Route element={<RolePrivateRoutes role="employe"/>} > 

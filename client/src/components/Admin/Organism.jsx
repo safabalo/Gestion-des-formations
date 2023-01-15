@@ -2,8 +2,10 @@ import React from 'react'
 import { useState } from 'react';
 import {AiOutlineEdit} from 'react-icons/ai'
 import axios from 'axios'
+import { useNavigate } from 'react-router';
 
 export default function Organisme() {
+    const navigate = useNavigate()
     let [organismes, setOrganisme]= useState([]);
     const [show, showModal]= useState(false);
     axios.get(`http://localhost:2000/admin/organism`)
@@ -17,7 +19,7 @@ export default function Organisme() {
   return (
     <>
         <div className='flex justify-end mb-10'>
-            <button  className="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
+            <button onClick={()=>{navigate('/dashboard/addOrganism')}} className="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
                 Action
             </button>
             {/* <!-- Dropdown menu --> */}

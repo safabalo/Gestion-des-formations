@@ -78,6 +78,12 @@ const updateEmployer = async(req,res)=>{
     res.json({message: `Employer ${body.username} is updated`, UpdateEmployer})
   
 }
+const Employer = async(req,res)=>{
+    const role = await Role.findOne({name: "employe"})
+    const employer = await User.find({role: role._id}).populate('role')
+    if(!employer) throw Error('Error, try again')
+    res.json({message: 'List of employer', employer})
+}
 const filterUser = async(req,res)=>{
     const role = await Role.findOne({name: "employe"})
     const today = new Date()
@@ -96,6 +102,7 @@ const logout = async(req,res)=>{
 
 module.exports={
     login,
+    Employer,
     addEmployer,
     updateEmployer,
     filterUser,

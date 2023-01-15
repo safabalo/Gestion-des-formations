@@ -4,6 +4,7 @@ import { BiHomeAlt, BiUser } from "react-icons/bi";
 import { MdOutlineSchool } from "react-icons/md";
 import { FaSchool } from "react-icons/fa";
 import { RiHistoryLine } from "react-icons/ri";
+import { IoStopwatchOutline } from "react-icons/io5";
 import { Outlet } from "react-router-dom";
 
 export default function Dashboard() {
@@ -12,6 +13,7 @@ export default function Dashboard() {
     { name: "Organism", link: "organism", icon: FaSchool },
     { name: "Employés", link: "employes", icon: BiUser },
     { name: "Formation", link: "formation", icon: MdOutlineSchool },
+    { name: "Assign", link: "assigner", icon: IoStopwatchOutline },
     { name: "Historique", link: "historique", icon: RiHistoryLine },
   ];
   return (
