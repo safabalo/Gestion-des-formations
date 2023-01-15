@@ -11,6 +11,11 @@ export default function Employes() {
   const [isOpen, setIsOpen] = useState(false);
   const [mode, setMode] = useState('');
   let [users, setUsers]= useState([]);
+  let [data, setData] = useState({
+    username: '',
+    email: '',
+    organism: '',
+  })
     axios.get(URL+'employe')
     .then((res)=>{
         setUsers(users = res.data.filterEmployer)
@@ -18,6 +23,22 @@ export default function Employes() {
     .catch((err)=>{
         console.log(err.msg)
     })
+    
+    const handleOpenModal = (mode, user) => {
+      setMode(mode);
+      if(mode === 'add'){
+        setData(data = {
+            username: '',
+            email: '',
+            organism: '',
+        })
+        setIsOpen(true);
+      }else if (mode === 'update') {
+        setData(data = user);
+        setIsOpen(true);
+      }
+      
+    };
     // const handleMode = (mode)=>{
     //   setMode(mode)
     //   toggleModal();
@@ -25,7 +46,7 @@ export default function Employes() {
   return (
     <>
     <div className='flex justify-end mb-10'>
-    <button onClick={()=>{setMode('add');setIsOpen(true)}} className="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
+    <button onClick={()=>{setMode('add');handleOpenModal('add')}} className="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
         Add
     </button>
 
@@ -82,7 +103,7 @@ export default function Employes() {
                 {user.role}
             </td>
             <td className="px-6 py-4">
-              <button className='btn bg-blue-600 text-white px-2 py-1' onClick={()=>{setMode('update'); setIsOpen(true); setId(user); setKey(user._id)}}>
+              <button className='btn bg-blue-600 text-white px-2 py-1' onClick={()=>{setMode('update'); handleOpenModal('update', user); setKey(user._id)}}>
                 edit
               </button>
             </td>
@@ -93,7 +114,7 @@ export default function Employes() {
 </table>
     {
       isOpen && (
-        <Modal mode={mode} user={id} key={key} onClose={()=>setIsOpen(false)}/>
+        <Modal mode={mode} data={data} setData={setData} id={key} onClose={()=>setIsOpen(false)}/>
       )
     }
     

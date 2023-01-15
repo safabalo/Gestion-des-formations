@@ -2,13 +2,8 @@ import axios from 'axios';
 import React, { useState } from 'react';
 // import { useEffect } from 'react';
 
-function Modal({ mode, onClose, user, key }) {
+function Modal({ mode, onClose, data, setData, id }) {
   
-  const [data, setData] = useState({
-    username: '',
-    email: '',
-    organism: '',
-  })
   let [options, setOptions] = useState([]);
   const URL = "http://localhost:2000/admin/"
   const onChange = (e) => {
@@ -27,6 +22,7 @@ function Modal({ mode, onClose, user, key }) {
   .catch((err)=>{
       console.log(err.msg)
   })
+
   const addUser = (e)=>{
     e.preventDefault();
     console.log(data)
@@ -46,20 +42,19 @@ function Modal({ mode, onClose, user, key }) {
   }
   const updateUser = (e)=>{
     e.preventDefault();
-    setData(user)
     const input = new FormData();
       input.append('username', data.username);
       input.append('email', data.email);
       input.append('image', data.image);
       input.append('organism', data.organism)
-    axios.put(URL+'update/'+key, input)
+    axios.put(URL+'update/'+id, input)
     .then((res)=>{
       console.log(res.data)
       onClose()
     })
     
   }
-  console.log(mode)
+  // console.log(mode)
   const handleSubmit= (m)=>{
     m = mode
     if(m === 'add'){
