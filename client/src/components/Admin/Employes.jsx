@@ -11,11 +11,7 @@ export default function Employes() {
   const [isOpen, setIsOpen] = useState(false);
   const [mode, setMode] = useState('');
   let [users, setUsers]= useState([]);
-  let [data, setData] = useState({
-    username: '',
-    email: '',
-    organism: '',
-  })
+  useEffect(() => {
     axios.get(URL+'employe')
     .then((res)=>{
         setUsers(users = res.data.filterEmployer)
@@ -23,6 +19,13 @@ export default function Employes() {
     .catch((err)=>{
         console.log(err.msg)
     })
+  },[])
+  let [data, setData] = useState({
+    username: '',
+    email: '',
+    organism: '',
+  })
+
     
     const handleOpenModal = (mode, user) => {
       setMode(mode);

@@ -54,7 +54,7 @@ function Modal({ mode, onClose, data, setData, id }) {
     })
     
   }
-  // console.log(mode)
+  console.log(mode)
   const handleSubmit= (m)=>{
     m = mode
     if(m === 'add'){
