@@ -1,15 +1,16 @@
-import axios from 'axios'
 import React from 'react'
-import { useState , useEffect } from 'react'
-import { useNavigate } from 'react-router'
+import {useNavigate} from 'react-router'
+import { useState } from 'react'
+import axios from 'axios'
 
-export default function AddOrganism() {
+export default function UpdateOrganism(organism) {
     const URL='http://localhost:2000/admin/'
     const [data, setData] = useState({
-        name: '',
+        username: '',
         adress: '',
         phone: ''
     })
+    
     const navigate = useNavigate()
     const onChange = (e) => {
         setData({...data, [e.target.name]: e.target.value})

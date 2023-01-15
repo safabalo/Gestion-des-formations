@@ -31,7 +31,7 @@ function Modal({ mode, onClose, data, setData, id }) {
       input.append('email', data.email);
       input.append('image', data.image);
       input.append('organism', data.organism);
-    axios.post(URL+'employe', input)
+    axios.put(URL+'employe', input)
     .then((res)=>{
       console.log(res.data)
       console.log(data)

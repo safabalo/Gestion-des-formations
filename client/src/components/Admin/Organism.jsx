@@ -5,10 +5,16 @@ import axios from 'axios'
 import { useNavigate } from 'react-router';
 
 export default function Organisme() {
+    const [data, setData] = useState({
+        name: '',
+        adress: '',
+        phone: ''
+    })
+    const URL='http://localhost:2000/admin/'
     const navigate = useNavigate()
     let [organismes, setOrganisme]= useState([]);
-    const [show, showModal]= useState(false);
-    axios.get(`http://localhost:2000/admin/organism`)
+    const [show, setShow]= useState(false);
+    axios.get(URL+'organism')
     .then((res)=>{
         setOrganisme(organismes = res.data)
         
@@ -16,6 +22,21 @@ export default function Organisme() {
     .catch((err)=>{
         console.log(err.msg)
     })
+    const onChange = (e) => {
+        setData({...data, [e.target.name]: e.target.value})
+    }
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        console.log(data.name, data.adress, data.phone)
+        axios.put(URL+'organism/'+data._id, data)
+        .then(res => {
+            console.log(res.data)
+        })
+        .catch(err => {
+            console.log(err.msg)
+        })
+        
+    }
   return (
     <>
         <div className='flex justify-end mb-10'>
@@ -72,7 +93,7 @@ export default function Organisme() {
                     </div>
                 </td>
                 <td className="px-6 py-4">
-                   <button className='bg-blue-600 rounded text-white px-4 flex justify-center gap-2 py-1'>
+                   <button onClick={()=>{setShow(true); setData(organisme); console.log(show);}} className='bg-blue-600 rounded text-white px-4 flex justify-center gap-2 py-1'>
                    <AiOutlineEdit/>
                    <span>edite</span>
                     </button>
@@ -82,64 +103,99 @@ export default function Organisme() {
         </tbody>
         ))}
     </table>
-    {/* <!-- Edit user modal --> */}
-    <div id="editUserModal" tabIndex="-1" aria-hidden="true" className="fixed top-0 left-0 right-0 z-50 items-center justify-center hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
-        <div className="relative w-full h-full max-w-2xl md:h-auto">
-            {/* <!-- Modal content --> */}
-            <form action="#" className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                {/* <!-- Modal header --> */}
-                <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                        Edit user
-                    </h3>
-                    <button type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="editUserModal">
-                        <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>  
+    {
+        show ? (
+            <div>
+            <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
+              <div className="relative w-auto max-w-3xl mx-auto my-6">
+                {/*content*/}
+                <div className="relative flex flex-col w-full bg-white border-0 rounded-lg shadow-lg outline-none focus:outline-none">
+                  {/*header*/}
+                  <div className="flex items-start justify-between p-5 border-b border-solid rounded-t border-slate-200 ">
+                    <h3 className="text-3xl font-semibold">Editer un organism precis</h3>
+                    <button
+                      className="float-right p-1 ml-8 text-3xl font-semibold leading-none text-gray-300 bg-transparent border-0 outline-none opacity-1 focus:outline-none"
+                      onClick={()=>setShow(false)}
+                    >
+                      <span className="block w-6 h-6 text-2xl text-gray-300 outline-none focus:outline-none">x</span>
                     </button>
-                </div>
-                {/* <!-- Modal body --> */}
-                <div className="p-6 space-y-6">
-                    <div className="grid grid-cols-6 gap-6">
-                        <div className="col-span-6 sm:col-span-3">
-                            <label htmlFor="first-name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
-                            <input type="text" name="first-name" id="first-name" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Bonnie" required="" />
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                            <label htmlFor="last-name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
-                            <input type="text" name="last-name" id="last-name" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Green" required="" />
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                            <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                            <input type="email" name="email" id="email" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="example@company.com" required="" />
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                            <label htmlFor="phone-number" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
-                            <input type="number" name="phone-number" id="phone-number" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="e.g. +(12)3456 789" required="" />
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                            <label htmlFor="department" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
-                            <input type="text" name="department" id="department" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Development" required="" />
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                            <label htmlFor="company" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company</label>
-                            <input type="number" name="company" id="company" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="123456" required="" />
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                            <label htmlFor="current-password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current Password</label>
-                            <input type="password" name="current-password" id="current-password" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="••••••••" required="" />
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                            <label htmlFor="new-password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New Password</label>
-                            <input type="password" name="new-password" id="new-password" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="••••••••" required="" />
-                        </div>
-                    </div>
-                </div>
-                {/* <!-- Modal footer --> */}
-                <div className="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                    <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save all</button>
-                </div>
-            </form>
+                  </div>
+                  {/*body*/}
+                  <div className="relative flex-auto p-6">
+                  <form className="my-4 text-lg leading-relaxed text-slate-500" 
+                    onSubmit={handleSubmit}
+                    >
+      <div className="flex flex-col">
+        <div>
+          <label htmlFor="username" className="mb-2">
+            <span className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm font-medium text-slate-700">Name</span>
+          </label>
+          <input
+            type="text"
+            value={data.name}
+            onChange={onChange}
+            name="name"
+            id="username"
+            placeholder="Inserer le prenom"
+            className="block w-full py-2 pr-3 mb-5 bg-white border rounded-md shadow-sm border-slate-300 pl-9 focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm hover:border-2 hover:border-cyan-500"
+          />
         </div>
-    </div>
+        <div>
+          <label htmlFor="email" className="mb-2">
+            <span className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm font-medium text-slate-700">Adresse</span>
+          </label>
+          <input
+            type="text"
+            value={data.adress}
+            onChange={onChange}
+            name="adress"
+            placeholder="Inserez l'adresse"
+            className="block w-full py-2 pr-3 mb-5 bg-white border rounded-md shadow-sm border-slate-300 pl-9 focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm hover:border-2 hover:border-cyan-500" />
+        </div>
+        <div>
+          <label htmlFor="email" className="mb-2">
+            <span className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm font-medium text-slate-700">Phone</span>
+          </label>
+          <input
+            type="text"
+            value={data.phone}
+            onChange={onChange}
+            name="phone"
+            id="phone"
+            placeholder="Inserer le téléphone"
+            className="block w-full py-2 pr-3 mb-5 bg-white border rounded-md shadow-sm border-slate-300 pl-9 focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm hover:border-2 hover:border-cyan-500"
+          />
+        </div>
+      </div>
+      <div className="flex items-center justify-end p-6 rounded-b">
+        <button
+          className="px-6 py-2 mb-1 mr-1 text-sm font-bold text-red-500 uppercase transition-all duration-150 ease-linear outline-none background-transparent focus:outline-none"
+          type="button"
+          onClick={() => setShow(false)}
+        >
+          Close
+        </button>
+        <button
+          className="px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blue-600 active:bg-blue-700 hover:shadow-lg focus:outline-none"
+          type="submit"
+        //   onClick={handleSubmit}
+        // onClick={() => setShowModal(false)}
+        >
+          Save Changes
+        </button>
+      </div>
+    </form>
+                  </div>
+                  {/*footer*/}
+                </div>
+              </div>
+            </div>
+            <div className="fixed inset-0 z-40 bg-black opacity-25"></div>
+          </div>
+        ) : null
+    }
+
+  
 </>
   )
 }
