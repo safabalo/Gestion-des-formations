@@ -19,7 +19,10 @@ const getOneOrganism = async(req,res)=>{
 }
 const UpdateOrganism = async(req,res)=>{
     let id = req.params.id
-    const UpdateOrganism = await Organism.findByIdAndUpdate(id,{})
+    const body = req.body
+    const UpdateOrganism = await Organism.findByIdAndUpdate(id,{
+        ...body
+    })
     if(!UpdateOrganism) throw Error('Error, try again')
     res.json({message: `Organism ${body.name} is updated`, UpdateOrganism})
     
