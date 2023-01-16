@@ -30,7 +30,7 @@ export default function AddFormation() {
     const handleSubmit = (e) => {
         e.preventDefault()
         const formData = new FormData()
-        formData.append('name', data.username)
+        formData.append('name', data.name)
         formData.append('organism', data.organism)
         formData.append('image', data.image)
         console.log(data.name, data.organism, data.image)
