@@ -65,19 +65,6 @@ const addEmployer = async(req,res)=>{
     }
 
 }
-const updateEmployer = async(req,res)=>{
-  const {body} = req
-  const {id} = req.params
-  const token = storage.getItem("token");
-  const user = jwt.verify(token,process.env.TOKEN_KEY)
-  const UpdateEmployer = await User.findByIdAndUpdate(id,{
-    ...body,
-    image: req.file.filename,
-  })
-  if(!UpdateEmployer) throw Error('Error, try again')
-    res.json({message: `Employer ${body.username} is updated`, UpdateEmployer})
-  
-}
 const Employer = async(req,res)=>{
     const role = await Role.findOne({name: "employe"})
     const employer = await User.find({role: role._id}).populate('role')
@@ -104,7 +91,6 @@ module.exports={
     login,
     Employer,
     addEmployer,
-    updateEmployer,
     filterUser,
     logout
 }
