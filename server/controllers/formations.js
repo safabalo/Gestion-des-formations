@@ -30,6 +30,7 @@ const getOneFormation = async(req,res)=>{
 }
 const filtredFormation = async(req,res)=>{
     const historique = await Historique.find().populate('user').populate('formation')
+    const user = await User.findById(historique.user).populate('organism')
     const formation = await Formation.findById(historique.formation)
     const today = new Date()
     const status = await Status.findOne({name: 'fini'})
@@ -39,7 +40,7 @@ const filtredFormation = async(req,res)=>{
     }
     const fini = await Status.findOne({name: 'fini'})
     const attente = await Status.findOne({name: 'en attente'})
-    const allFormation = await Formation.find()
+    const allFormation = await Formation.find({organism: user.organism})
     const formations = allFormation.filter(f=>f.status===fini || f.status===attente)
     if(formations) res.send(formations)
     else{

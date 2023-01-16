@@ -16,6 +16,7 @@ import Admin from './Pages/Admin';
 import AddEmployer from './components/Add/AddEmployer';
 import AddFormation from './components/Add/AddFormation';
 import AddOrganism from './components/Add/AddOrganism';
+// import AssignFormationEmployer from './components/Add/AssignFormationEmployer';
 function App() {
   return (
     <Provider store={store}>
@@ -35,6 +36,7 @@ function App() {
               <Route path='addOrganism' element={<AddOrganism/>} />
               <Route path='addEmployer' element={<AddEmployer/>} />
               <Route path='addFormation' element={<AddFormation/>} />
+              {/* <Route path='assignFformation' element={<AssignFormationEmployer/>} /> */}
               </Route>
           </Route>
           <Route element={<RolePrivateRoutes role="employe"/>} > 
