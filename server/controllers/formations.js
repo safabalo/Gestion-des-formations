@@ -1,9 +1,11 @@
 const db = require('../models')
 const Formation = db.formation
+const User = db.user
 const Organism = db.organism
 const Status = db.status
 const Historique = db.historique
-
+let moment = require('moment')
+let today = moment()
 const AddFormation = async(req, res)=>{
     const {body}= req
     const findOrg = await Organism.findOne({name : body.organism})
@@ -29,19 +31,20 @@ const getOneFormation = async(req,res)=>{
     res.send(oneFormation)
 }
 const filtredFormation = async(req,res)=>{
-    const historique = await Historique.find().populate('user').populate('formation')
-    const user = await User.findById(historique.user).populate('organism')
-    const formation = await Formation.findById(historique.formation)
+    const historique = await Historique.find().populate('formation').populate('user')
+    // const user = await User.findById(historique.user).populate('organism')
     const today = new Date()
     const status = await Status.findOne({name: 'fini'})
-    if(historique.fin.toDateString() === today.toDateString()){
-       formation.status = status._id
-       formation.save()
-    }
-    const fini = await Status.findOne({name: 'fini'})
-    const attente = await Status.findOne({name: 'en attente'})
-    const allFormation = await Formation.find({organism: user.organism})
-    const formations = allFormation.filter(f=>f.status===fini || f.status===attente)
+    historique.forEach(e => {
+        if(moment(e.fin).format('YYYY-MM-DD')=== moment(today).format('YYYY-MM-DD') || moment(today).format('YYYY-MM-DD') < moment(e.fin).format('YYYY-MM-DD')){
+            e.formation.status = status._id
+            e.formation.save()
+        }
+
+        console.log(moment(e.fin).format('YYYY-MM-DD')< moment(today).format('YYYY-MM-DD'))
+    })
+    const allFormation = await Formation.find().populate('status')
+    const formations = allFormation.filter(f=>f.status.name!='en cours...')
     if(formations) res.send(formations)
     else{
         throw Error("There's no formation over here")
