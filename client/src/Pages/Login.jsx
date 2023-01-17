@@ -1,30 +1,22 @@
 import React from "react";
 import institute from "../images/ox.png";
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
+// import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
 import { login } from "../components/Redux/Actions/auth";
 
 export default function Login() {
-  const [user, setUser] = useState({ email: "", password: "" });
+  const [user, setUser] = useState({ email: "", password: ""})
   const dispatch = useDispatch();
+  // const navigate = useNavigate
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
-  };
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(login(user));
-  };
-
-  let userState = useSelector((state) => state.auth);
-  if (userState.isLoggedIn) {
-    if (userState.role === "admin") <Navigate to="/" />;
-    else <Navigate to="/Employe" />;
-  } else {
-    if(userState.message) console.log(userState.message);
   }
-
   return (
     <div className="flex items-center min-h-screen bg-gray-50">
       <div className="flex-1 h-full max-w-4xl mx-auto bg-white rounded-lg shadow-xl">
@@ -48,24 +40,12 @@ export default function Login() {
               </div>
               <h1 className="mb-4 text-2xl font-bold text-center text-gray-700">Login to Your Account</h1>
               <div>
-                <label className="block text-sm">Email</label>
-                <input
-                  type="email"
-                  onChange={handleChange}
-                  name="email"
-                  className="w-full px-4 py-2 text-sm border rounded-md focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-600"
-                  placeholder=""
-                />
+                <label className="block text-sm" >Email</label>
+                <input type="email" onChange={handleChange} name="email" className="w-full px-4 py-2 text-sm border rounded-md focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-600" placeholder="" />
               </div>
               <div>
                 <label className="block mt-4 text-sm">Password</label>
-                <input
-                  name="password"
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 text-sm border rounded-md focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-600"
-                  placeholder=""
-                  type="password"
-                />
+                <input name="password" onChange={handleChange} className="w-full px-4 py-2 text-sm border rounded-md focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-600" placeholder="" type="password" />
               </div>
               <p className="mt-4">
                 <a className="text-sm text-blue-600 hover:underline" href="./forgot-password.html">
@@ -76,9 +56,11 @@ export default function Login() {
                 onClick={handleSubmit}
                 className="block w-full px-4 py-2 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue mt-8 mb-16"
                 href="#"
+                
               >
                 Log in
               </button>
+              
             </div>
           </div>
         </div>

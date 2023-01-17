@@ -4,6 +4,7 @@ const user = JSON.parse(localStorage.getItem("user"));
 let initialState = user ? { isLoggedIn: true, user } : { isLoggedIn: false, user: null };
 
 export default function authReducer(state = initialState, action) {
+  console.log("authReducer: ", action.type);
   const { type, payload } = action;
   switch (type) {
     case LOGIN_SUCCESS:
