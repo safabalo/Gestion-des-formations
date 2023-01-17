@@ -1,12 +1,16 @@
 import React from "react";
 import { useState } from "react";
-import axios from "axios";
+import { useDispatch } from "react-redux";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { BiLogOut } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../Redux/Actions/auth";
 
 
 function Sidebar(props) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(true);
   let menus = props.menus
 
@@ -39,7 +43,7 @@ function Sidebar(props) {
         ))}
         <button
           type="button"
-        //   onClick={logout}
+          onClick={() => {dispatch(logout); navigate("/login")}}
           className="mt-64 inset-x-0 flex items-center text-sm gap-4 font-medium p-2 rounded-md hover:bg-gray-50 hover:text-blue-600">
           <div>{React.createElement(BiLogOut, { size: "25" })}</div>
           <h2 className={`whitespace-pre duration-500 ${!open && "opacity-0 translate-x-28 overflow-hidden"}`}>

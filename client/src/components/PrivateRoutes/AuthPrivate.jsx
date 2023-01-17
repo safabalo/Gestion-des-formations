@@ -1,17 +1,18 @@
-import { Navigate, Outlet } from 'react-router-dom'
+import { Navigate, Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const AuthPrivateRoutes = () => {
-    let user = JSON.parse(localStorage.getItem('user'));
-  if(user.token) {var token = true}
-  if(user.email) {var email = true}
-  if(user.username) {var username = true}
-  if(user.role) {var role = true}
+  let user = useSelector((state) => state.auth);
 
-  const url = `/`
+  const url = `/login`;
 
-  return (
-    (token && email && role && username) ? <Outlet/> : <Navigate to={url}/>
-  )
-}
+  if (user.isLoggedIn) {
+    if (user.role === "admin") <Navigate to="/" />;
+    else <Navigate to="/Employe" />;
+  } else {
+    console.log(user.message);
+    // <Navigate />;
+  }
+};
 
 export default AuthPrivateRoutes;
