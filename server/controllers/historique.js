@@ -9,6 +9,7 @@ let today = moment()
 
 const addHistorique = async(req, res)=>{
    const {body}= req 
+   if(!body.user || !body.formation || !body.debut || !body.fin) throw Error('All fields are required')
    const employer = await User.findOne({username: body.user})
    const formation = await Formation.findOne({name: body.formation})
    let start = new Date(body.debut)
@@ -26,7 +27,7 @@ const addHistorique = async(req, res)=>{
    const status = await Status.findOne({name:'en cours...'})
    formation.status = status._id
    formation.save()
-   if(!historique) throw Error('Error, try again')
+   if(!historique) throw Error('Historique not created')
    res.send(historique)
 }
 const getHistorique = async(req, res)=>{
@@ -40,6 +41,8 @@ const getOneHistorique = async(req, res)=>{
 }
 const updateHistorique = async(req, res)=>{
    const historique = req.params.id
+   const h = await Historique.findById(historique) 
+   if(!h) throw Error('Historique not found')
    const {body}= req
    const employer = await User.findOne({username: body.user})
    const formation = await Formation.findOne({name: body.formation})

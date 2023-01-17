@@ -8,6 +8,7 @@ let moment = require('moment')
 let today = moment()
 const AddFormation = async(req, res)=>{
     const {body}= req
+    if(!body.name || !body.organism || !body.image) throw Error ("Fill the all fields")
     const findOrg = await Organism.findOne({name : body.organism})
     const status = await Status.findOne({name : "en attente"})
     const formation = await Formation.create({
@@ -53,19 +54,23 @@ const filtredFormation = async(req,res)=>{
 
 const UpdateFormation = async(req,res)=>{
     const id = req.params.id
+    const f = await Formation.findById(id) 
+    if(!f) throw Error('Formation not found')
     const {body}= req
     const findOrg = await Organism.findOne({name : body.organism})
     const UpdateFormation = await Formation.findByIdAndUpdate(id,{
         ...body,
         organism: findOrg._id
     })
-    if(!UpdateFormation) throw Error('Error, try again')
+    if(!UpdateFormation) throw Error('formation not updated')
     res.json({message: `Formation ${body.name} is updated`, UpdateFormation})
 }
 const DeleteFormation = async(req,res)=>{
     let id = req.params.id
+    const f = await Formation.findById(id) 
+    if(!f) throw Error('Formation not found')
     const deleteFormation = await Formation.findByIdAndDelete(id)
-    if(!deleteFormation) throw Error('Error, try again')
+    if(!deleteFormation) throw Error('formation not deleted')
     res.json({message: `Formation is deleted`, deleteFormation})
 }
 

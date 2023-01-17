@@ -20,7 +20,7 @@ const login = async(req,res)=>{
     const { body } = req;
     if (!body.email || !body.password) throw Error("Fill the all fields to login");
     const user = await User.findOne({ email: body.email });
-    if (!user || !(await bcrypt.compare(body.password, user.password))) throw Error("Email or password is incorect");
+    if (!user || !(await bcrypt.compare(body.password, user.password))) throw Error("Email or password are incorect");
     if (!user.status) throw Error("You can't to login");
     const token = await jwt.sign({ _id: user._id }, process.env.TOKEN_KEY);
     storage("token", token);
@@ -94,6 +94,7 @@ const filterUser = async(req,res)=>{
     //   return filter.some(j => j.user._id.toString() != i._id.toString())
     // })
   // }else{
+    if(!filterEmployer) throw Error('No employer')
     filterEmployer = employer
   // }
   res.json({message: 'List of employer', filterEmployer})
