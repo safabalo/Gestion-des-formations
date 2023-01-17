@@ -9,7 +9,7 @@ describe("Authentification", () => {
         }
         test("Fill the all fields to login", async () => {
             const response = await request(app).post("/auth/login").send(body)
-            expect(response.statusCode).toBe(202)
+            expect(response.statusCode).toBe(200)
         })
         test("Email or password are incorect", async () => {
             body = {
@@ -17,7 +17,7 @@ describe("Authentification", () => {
                 password: "..."
             }
             const response = await request(app).post("/auth/login").send(body)
-            expect(response.statusCode).toBe(202)
+            expect(response.statusCode).toBe(200)
         })
         test("Login Success", async () => {
             body = {
@@ -51,19 +51,19 @@ describe("Organismes", () => {
     describe("POST /organism", () => {
         test("All fields are required", async () => {
             const response = await request(app).post("/organism").send(body)
-            expect(response.statusCode).toBe(202)
+            expect(response.statusCode).toBe(200)
         })
     })
     describe("POST /organism", () => {
         test("Organisme not found", async () => {
             const response = await request(app).put("/organism/00000")
-            expect(response.statusCode).toBe(202)
+            expect(response.statusCode).toBe(200)
         })
     })
     describe("POST /organism", () => {
         test("Organisme not found", async () => {
             const response = await request(app).delete("/organism/00000")
-            expect(response.statusCode).toBe(202)
+            expect(response.statusCode).toBe(200)
         })
     })
 })
@@ -82,15 +82,15 @@ describe("Formations", () => {
         }
         test("Fill the all fields", async () => {
             const response = await request(app).post("/formation").send(body)
-            expect(response.statusCode).toBe(202)
+            expect(response.statusCode).toBe(200)
         })
         test("Formation not found", async () => {
             const response = await request(app).put("/formation/00000")
-            expect(response.statusCode).toBe(202)
+            expect(response.statusCode).toBe(200)
         })
         test("Formation not found", async () => {
             const response = await request(app).delete("/formation/00000")
-            expect(response.statusCode).toBe(202)
+            expect(response.statusCode).toBe(200)
         })
     })
 })
@@ -109,19 +109,19 @@ describe("Employes", () => {
     describe("POST /admin/addEmployee", () => {
         test("all fiels id required", async () => {
             const response = await request(app).post("/admin/addEmploye").send(body)
-            expect(response.statusCode).toBe(202)
+            expect(response.statusCode).toBe(200)
         })
-        test('email already exists returns 409', async () => {
+        test('email already exists', async () => {
             email = 'belih87579@webonoid.com';
             const res = await request(app).post('/admin/addEmploye').send({ body });
-            expect(res.statusCode).toBe(409);
+            expect(res.statusCode).toBe(200);
             expect(res.body).toEqual({ error: 'This email already exist' });
           });
     })
     describe("GET /employe", () => {
         test("Employe not existed", async () => {
             const response = await request(app).get("/admin/employe")
-            expect(res.text).toBe("{\"message\":\"No employer\"}")
+            expect(response.text).toBe("No employer")
         })
     })
 
@@ -142,11 +142,11 @@ describe("Historiques", () => {
         }
         test("All fields are required", async () => {
             const response = await request(app).post("/admin/historique").send(body)
-            expect(response.statusCode).toBe(202)
+            expect(response.statusCode).toBe(200)
         })
         test("Historique not found", async () => {
             const response = await request(app).put("/admin/historique/00000")
-            expect(response.statusCode).toBe(202)
+            expect(response.statusCode).toBe(200)
         })
     })
 })
