@@ -35,15 +35,19 @@ const filtredFormation = async(req,res)=>{
     const historique = await Historique.find().populate('formation').populate('user')
     // const user = await User.findById(historique.user).populate('organism')
     const today = new Date()
-    const status = await Status.findOne({name: 'fini'})
+    const stat = await Status.findOne({name: 'fini'})
     historique.forEach(e => {
         if(moment(e.fin).format('YYYY-MM-DD')=== moment(today).format('YYYY-MM-DD') || moment(today).format('YYYY-MM-DD') > moment(e.fin).format('YYYY-MM-DD')){
-            e.formation.status = status._id
+            e.formation.status = stat._id
             e.formation.save()
         }
     })
-    const allFormation = await Formation.find().populate('status')
-    const formations = allFormation.filter(f=>f.status.name!='en cours...')
+    const status = await Status.findOne({name:'en attente'})
+    const formations = await Formation.aggregate([
+      {
+        $match: { status: status._id },
+      },
+    ]);
     if(formations) res.json({message:"formation filtrer", formations})
     else{
         throw Error("There's no formation over here")
