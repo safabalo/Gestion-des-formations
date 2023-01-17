@@ -66,7 +66,7 @@ const DeleteFormation = async(req,res)=>{
     let id = req.params.id
     const deleteFormation = await Formation.findByIdAndDelete(id)
     if(!deleteFormation) throw Error('Error, try again')
-    res.json({message: `Formation ${body.name} is updated`, deleteFormation})
+    res.json({message: `Formation is deleted`, deleteFormation})
 }
 
 module.exports={
