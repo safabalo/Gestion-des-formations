@@ -72,10 +72,10 @@ export default function Organisme() {
               Name
             </th>
             <th scope="col" className="px-6 py-3">
-              Position
+              Adress
             </th>
             <th scope="col" className="px-6 py-3">
-              Status
+              Phone
             </th>
             <th scope="col" className="px-6 py-3">
               Action

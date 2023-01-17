@@ -41,11 +41,15 @@ const getOneHistorique = async(req, res)=>{
 const updateHistorique = async(req, res)=>{
    const historique = req.params.id
    const {body}= req
+   const employer = await User.findOne({username: body.user})
+   const formation = await Formation.findOne({name: body.formation})
    const UpdateHistorique = await Historique.findByIdAndUpdate(historique,{
-      ...body
+      ...body,
+      user: employer._id,
+      formation: formation._id
    })
    if(!UpdateHistorique) throw Error('Error, try again')
-   res.json({message: `Historique ${body.name} is updated`, UpdateHistorique})
+   res.json({message: `Historique is updated`, UpdateHistorique})
 }
 
 module.exports = {

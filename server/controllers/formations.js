@@ -36,7 +36,7 @@ const filtredFormation = async(req,res)=>{
     const today = new Date()
     const status = await Status.findOne({name: 'fini'})
     historique.forEach(e => {
-        if(moment(e.fin).format('YYYY-MM-DD')=== moment(today).format('YYYY-MM-DD') || moment(today).format('YYYY-MM-DD') < moment(e.fin).format('YYYY-MM-DD')){
+        if(moment(e.fin).format('YYYY-MM-DD')=== moment(today).format('YYYY-MM-DD') || moment(today).format('YYYY-MM-DD') > moment(e.fin).format('YYYY-MM-DD')){
             e.formation.status = status._id
             e.formation.save()
         }
@@ -45,7 +45,7 @@ const filtredFormation = async(req,res)=>{
     })
     const allFormation = await Formation.find().populate('status')
     const formations = allFormation.filter(f=>f.status.name!='en cours...')
-    if(formations) res.send(formations)
+    if(formations) res.json({message:"formation filtrer", formations})
     else{
         throw Error("There's no formation over here")
     }

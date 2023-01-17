@@ -37,16 +37,13 @@ export default function Employes() {
                 </div>
             </th>
             <th scope="col" className="px-6 py-3">
-                Name
+                Name & Email
             </th>
             <th scope="col" className="px-6 py-3">
-                Position
+                Organisation
             </th>
             <th scope="col" className="px-6 py-3">
-                Status
-            </th>
-            <th scope="col" className="px-6 py-3">
-                Action
+                Role
             </th>
         </tr>
     </thead>
@@ -70,19 +67,7 @@ export default function Employes() {
             {user.organism}
             </td>
             <td className="px-6 py-4">
-                <div className="flex items-center">
-                    <div className="h-2.5 w-2.5 rounded-full bg-green-400 mr-2"></div> Active
-                </div>
-            </td>
-            <td className="px-6 py-4">
                 {user.role.name}
-            </td>
-            <td className="px-6 py-4">
-              <button className='btn bg-blue-600 text-white px-2 py-1' 
-              // onClick={handleOpen(user)}
-              >
-                edit
-              </button>
             </td>
         </tr>
 

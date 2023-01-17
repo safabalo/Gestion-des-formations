@@ -91,13 +91,13 @@ export default function Formation() {
               </div>
             </th>
             <th scope="col" className="px-6 py-3">
-              Name
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Position
+              Name & Organism
             </th>
             <th scope="col" className="px-6 py-3">
               Status
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Actions
             </th>
           </tr>
         </thead>

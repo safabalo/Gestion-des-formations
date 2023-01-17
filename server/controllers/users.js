@@ -8,9 +8,13 @@ const Historique = require('../models/historique')
 const Organism = require('../models/organism')
 
 const User = db.user
-const formation = db.formation
+const Formation = db.formation
 const organism = db.organism
 const Role = db.role
+const Status = db.status
+const moment = require('moment')
+const { formation } = require('../models')
+let today = moment()
 
 
 const login = async(req,res)=>{
@@ -73,14 +77,28 @@ const Employer = async(req,res)=>{
 }
 const filterUser = async(req,res)=>{
     const role = await Role.findOne({name: "employe"})
-    const today = new Date()
     const employer= await User.find({role: role._id})
+    const status = await Status.findOne({name: 'en cours...'})
+    const f = await Formation.find({status: status._id})
     if(!employer) throw Error('Error, try again')
     const historique = await Historique.find().populate('user').populate('formation')
     if(!historique) throw Error('Error, try again')
-    const filter = historique.filter(i =>{ return i.fin.toDateString()===today.toDateString()})
-    const filterEmployer = employer.filter(e=>{return !filter.includes(e)})
-    res.json({message: 'List of employer', filterEmployer})
+
+    const filter = historique.filter(i => {
+      return i.formation?.status.toString() === status._id.toString()
+    })
+    let user = []
+    let filterEmployer
+    filter.forEach(i => {user.push((i.user))})
+    // if(user.length > 0){
+    //   filterEmployer = employer.filter(i => {
+    //   return filter.some(j => j.user._id.toString() != i._id.toString())
+    // })
+  // }else{
+    filterEmployer = employer
+  // }
+  res.json({message: 'List of employer', filterEmployer})
+    
 }
 const logout = async(req,res)=>{
     storage.removeItem("token");
