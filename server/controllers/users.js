@@ -101,7 +101,7 @@ const filterUser = async(req,res)=>{
     
 }
 const logout = async(req,res)=>{
-    storage.removeItem("token");
+    storage.clear();
     res.json({ message: "Logout success" });
 }
 
