@@ -4,13 +4,17 @@ const formationController = require('../controllers/formations')
 const organismController = require('../controllers/organism')
 const historiqueController = require('../controllers/historique')
 const multer = require('../middlewares/multer-config')
+const statistiquesController = require('../controllers/statistiques')
+
 const tryCatch = require('../middlewares/tryCatch')
 const errorHandler = require('../middlewares/errorHandling')
 // Add Employee
 router.post('/addEmploye',multer.single('image'),tryCatch(authController.addEmployer))
 router.get('/employes',tryCatch(authController.Employer))
 router.get('/employe',tryCatch(authController.filterUser))
-// Routes des organism
+// Routes des statistiques
+router.get('/statistiques',tryCatch(statistiquesController.Statistiques))
+// Routes des organismes
 router.get('/organism',tryCatch(organismController.getOrganism))
 router.get('/organism/:id',tryCatch(organismController.getOneOrganism))
 router.post('/organism', tryCatch(organismController.AddOrganism))
