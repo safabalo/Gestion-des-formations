@@ -41,8 +41,6 @@ const filtredFormation = async(req,res)=>{
             e.formation.status = status._id
             e.formation.save()
         }
-
-        console.log(moment(e.fin).format('YYYY-MM-DD')< moment(today).format('YYYY-MM-DD'))
     })
     const allFormation = await Formation.find().populate('status')
     const formations = allFormation.filter(f=>f.status.name!='en cours...')
