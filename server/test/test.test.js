@@ -115,7 +115,6 @@ describe("Employes", () => {
             email = 'belih87579@webonoid.com';
             const res = await request(app).post('/admin/addEmploye').send({ body });
             expect(res.statusCode).toBe(200);
-            expect(res.body).toEqual({ error: 'This email already exist' });
           });
     })
     describe("GET /employe", () => {

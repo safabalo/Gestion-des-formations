@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const bodyParser = require("body-parser");
 const authRoutes = require("./routes/auth");
 const adminRoutes = require("./routes/admin");
 require("dotenv").config();
@@ -10,7 +9,6 @@ require("./config/db");
 require("./models");
 
 app.use(cors());
-app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
